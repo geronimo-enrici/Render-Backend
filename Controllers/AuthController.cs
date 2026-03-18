@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using ProyectoRender.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -23,7 +24,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] Register request)
         {
             if (await _context.Users.AnyAsync(u => u.Email == request.Email))
             {
@@ -33,7 +34,7 @@ namespace Backend.Controllers
             var user = new User
             {
                 Email = request.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Contrasena)
             };
 
             _context.Users.Add(user);
